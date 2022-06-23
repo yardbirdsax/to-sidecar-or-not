@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+spec:
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+        - name: server
+          image: yardbirdsax/sidecar-server:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+          - containerPort: 8080
+          imagePullPolicy: Never
+        - name: sidecar
+          image: yardbirdsax/sidecar-sidecar:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+          - containerPort: 8081
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /health
+    prometheus.io/port: "8080"
+spec:
+  selector:
+    app: server
+  ports:
+  - name: server
+    port: 8080
+    targetPort: 8080
+  - name: sidecar
+    port: 8081
+    targetPort: 8081
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+spec:
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /health
+        prometheus.io/port: "8080"
+    spec:
+      containers:
+        - name: client
+          image: yardbirdsax/sidecar-client:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+          - containerPort: 8080
+          imagePullPolicy: Never

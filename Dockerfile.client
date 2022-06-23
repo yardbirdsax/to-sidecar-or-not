@@ -1,0 +1,10 @@
+FROM alpine:3.16 as runner
+
+ENV PORT=8080
+
+WORKDIR /app
+COPY client /app/
+
+EXPOSE ${PORT}
+
+ENTRYPOINT [ "/app/client" ]

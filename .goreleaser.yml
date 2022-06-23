@@ -1,0 +1,51 @@
+builds:
+  - id: server
+    main: ./cmd/server/
+    binary: server
+    goos:
+      - "linux"
+    goarch:
+      - "amd64"
+      - "arm64"  
+    env:
+      - "CGO_ENABLED=0"
+  - id: sidecar
+    main: ./cmd/sidecar/
+    binary: sidecar
+    goos:
+      - "linux"
+    goarch:
+      - "amd64"
+      - "arm64"  
+    env:
+      - "CGO_ENABLED=0"
+  - id: client
+    main: ./cmd/client/
+    binary: client
+    goos:
+      - "linux"
+    goarch:
+      - "amd64"
+      - "arm64"  
+    env:
+      - "CGO_ENABLED=0"
+      
+dockers:
+  - dockerfile: Dockerfile.server
+    id: server
+    ids:
+      - server
+    image_templates:
+      - "yardbirdsax/sidecar-server:latest"
+  - dockerfile: Dockerfile.sidecar
+    id: sidecar
+    ids:
+      - sidecar
+    image_templates:
+      - "yardbirdsax/sidecar-sidecar:latest"
+  - dockerfile: Dockerfile.client
+    id: client
+    ids:
+      - client
+    image_templates:
+      - "yardbirdsax/sidecar-client:latest"

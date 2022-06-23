@@ -1,0 +1,6 @@
+{
+  "yaml.schemas": {
+    "https://json.schemastore.org/helmfile.json": "file:///Users/joshuafeierman/repos/to-sidecar-or-not/helmfile/helmfile.yml",
+    "kubernetes": "kubernetes/**",
+  }
+}
