@@ -13,6 +13,9 @@ spec:
     spec:
       containers:
         - name: server
+          env:
+            - name: SOCK_ADDR
+              value: /var/run/sidecar/adder.sock
           image: yardbirdsax/sidecar-server:latest
           resources:
             limits:
@@ -21,6 +24,9 @@ spec:
           ports:
           - containerPort: 8080
           imagePullPolicy: Never
+          volumeMounts:
+            - mountPath: /var/run/sidecar
+              name: sidecar-sock
         - name: sidecar
           image: yardbirdsax/sidecar-sidecar:latest
           resources:
@@ -30,6 +36,24 @@ spec:
           ports:
           - containerPort: 8081
           imagePullPolicy: Never
+        - name: sidecar-grpc
+          env:
+            - name: SOCK_ADDR
+              value: /var/run/sidecar/adder.sock
+          image: yardbirdsax/sidecar-sidecar-grpc:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+          - containerPort: 8082
+          imagePullPolicy: Never
+          volumeMounts:
+            - mountPath: /var/run/sidecar
+              name: sidecar-sock
+      volumes:
+        - name: sidecar-sock
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service

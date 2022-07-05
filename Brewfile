@@ -1,2 +1,5 @@
 brew "helm"
 brew "helmfile"
+brew "protobuf"
+brew "graphviz"
+brew "go@1.18"

@@ -1,0 +1,14 @@
+syntax = "proto3";
+option go_package = "github.com/yardbirdsax/to-sidecar-or-not/adder";
+message AdderGRPCInput {
+  double one = 1;
+  double two = 2;
+}
+
+message AdderGRPCResult {
+  double result = 1;
+};
+
+service Adder {
+  rpc Add(AdderGRPCInput) returns(AdderGRPCResult) {}
+};

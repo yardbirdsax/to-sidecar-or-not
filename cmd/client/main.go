@@ -49,11 +49,15 @@ func main() {
 	}
 	serverURL := fmt.Sprintf("http://%s/adder", serverAddr)
 	sidecarURL := fmt.Sprintf("http://%s/adder-with-sidecar", serverAddr)
+	sidecarGRPCURL := fmt.Sprintf("http://%s/adder-with-sidecar-grpc", serverAddr)
+	sidecarGRPCURLSocket := fmt.Sprintf("http://%s/adder-with-sidecar-grpc-socket", serverAddr)
 
 	r.GET("/health", gin.WrapH(promhttp.Handler()))
 
 	doHTTPAdder(serverURL, "adder-local", 10, 2)
 	doHTTPAdder(sidecarURL, "adder-sidecar", 10, 2)
+	doHTTPAdder(sidecarGRPCURL, "adder-sidecar-grpc", 10, 2)
+	doHTTPAdder(sidecarGRPCURLSocket, "adder-sidecar-grpc-socket", 10, 2)
 
 	r.Run()
 

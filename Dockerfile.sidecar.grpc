@@ -1,0 +1,10 @@
+FROM alpine:3.16 as runner
+
+ENV PORT=8082
+
+WORKDIR /app
+COPY sidecar-grpc /app/
+
+EXPOSE ${PORT}
+
+ENTRYPOINT [ "/app/sidecar-grpc" ]

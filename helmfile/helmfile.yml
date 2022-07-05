@@ -7,3 +7,7 @@ releases:
     devel: false
     name: prometheus
     skipDeps: false
+    values:
+      - server:
+          global:
+            scrape_interval: "10s"

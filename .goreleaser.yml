@@ -6,7 +6,6 @@ builds:
       - "linux"
     goarch:
       - "amd64"
-      - "arm64"  
     env:
       - "CGO_ENABLED=0"
   - id: sidecar
@@ -16,7 +15,15 @@ builds:
       - "linux"
     goarch:
       - "amd64"
-      - "arm64"  
+    env:
+      - "CGO_ENABLED=0"
+  - id: sidecar-grpc
+    main: ./cmd/sidecar/grpc/
+    binary: sidecar-grpc
+    goos:
+      - "linux"
+    goarch:
+      - "amd64"
     env:
       - "CGO_ENABLED=0"
   - id: client
@@ -26,7 +33,6 @@ builds:
       - "linux"
     goarch:
       - "amd64"
-      - "arm64"  
     env:
       - "CGO_ENABLED=0"
       
@@ -43,6 +49,12 @@ dockers:
       - sidecar
     image_templates:
       - "yardbirdsax/sidecar-sidecar:latest"
+  - dockerfile: Dockerfile.sidecar.grpc
+    id: sidecar-grpc
+    ids:
+      - sidecar-grpc
+    image_templates:
+      - "yardbirdsax/sidecar-sidecar-grpc:latest"
   - dockerfile: Dockerfile.client
     id: client
     ids:
