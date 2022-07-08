@@ -70,7 +70,7 @@ Follow these steps to setup and run the project locally.
 
 ### Teardown
 
-* Run `make kind
+* Run `make kind stop`
 
 ## Observations
 
