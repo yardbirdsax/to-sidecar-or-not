@@ -14,9 +14,9 @@ An exploration of the pros and cons of using the sidecar model for common cross-
 
 ## Project Goals
 
-The primary goal of this project is to determine the pros and cons (from a performance perspective only) of using a sidecar as a means to expose common functionality in heterogenous langauge environments (i.e. places that use more than one language). This approach has been proposed as a means to avoid duplicating library code across different langauges.
+The primary goal of this project is to determine the pros and cons (from a performance perspective only) of using a sidecar to expose common functionality in heterogenous language environments (i.e., places that use more than one language). This approach has been proposed to avoid duplicating library code across different languages.
 
-I compare the client side latency when an endpoint is called that uses a local method versus a call out to a sidecar via either REST over HTTP or gRPC over IPC (Unix sockets). As a side effect, I seek to show how to instrument Go code with Prometheus in ways that give useful insight into the performance of the application.
+I compare the client-side latency when an endpoint uses a local method versus a call out to a sidecar via either REST over HTTP or gRPC over IPC (Unix sockets). As a side effect, I seek to show how to instrument Go code with Prometheus in ways that give useful insight into the performance of the application.
 
 ## Project Layout
 
@@ -68,11 +68,7 @@ Follow these steps to setup and run the project locally.
 
 >**NOTE:** To get the best data, wait for > 5 minutes to allow data to be collected.
 
-### Teardown
-
-* Run `make kind stop`
-
-## Observations
+### Observations
 
 **There is a clear difference observed between the methods that are all local versus those that call to the sidecar.**
 
@@ -89,6 +85,10 @@ Browse to [this URL](http://localhost:9090/graph?g0.expr=quantile(0.95%2C%20(avg
 I observed that the difference between the different methods was always < 100ns. In addition, surprisingly, the gRPC-over-IPC method was not a clear winner; instead, gRPC-over-HTTP was always the lowest, and some times even REST-over-HTTP beat gRPC-over-IPC!
 
 ![](img/client_response_sidecar_routes.png)
+
+### Teardown
+
+* Run `make kind stop`
 
 ## Conclusions
 

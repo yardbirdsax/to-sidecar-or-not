@@ -4,8 +4,10 @@ builds:
     binary: server
     goos:
       - "linux"
+      - "darwin"
     goarch:
       - "amd64"
+      - "arm64"
     env:
       - "CGO_ENABLED=0"
   - id: sidecar
@@ -13,8 +15,10 @@ builds:
     binary: sidecar
     goos:
       - "linux"
+      - "darwin"
     goarch:
       - "amd64"
+      - "arm64"
     env:
       - "CGO_ENABLED=0"
   - id: sidecar-grpc
@@ -22,8 +26,10 @@ builds:
     binary: sidecar-grpc
     goos:
       - "linux"
+      - "darwin"
     goarch:
       - "amd64"
+      - "arm64"
     env:
       - "CGO_ENABLED=0"
   - id: client
@@ -31,8 +37,10 @@ builds:
     binary: client
     goos:
       - "linux"
+      - "darwin"
     goarch:
       - "amd64"
+      - "arm64"
     env:
       - "CGO_ENABLED=0"
       

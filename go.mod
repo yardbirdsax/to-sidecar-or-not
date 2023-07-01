@@ -1,8 +1,9 @@
 module github.com/yardbirdsax/to-sidecar-or-not
 
-go 1.17
+go 1.18
 
 require (
+	github.com/gin-contrib/pprof v1.4.0
 	github.com/gin-contrib/zap v0.0.2
 	github.com/gin-gonic/gin v1.8.1
 	github.com/prometheus/client_golang v1.12.2

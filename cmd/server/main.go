@@ -8,10 +8,10 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"runtime/pprof"
 	"syscall"
 	"time"
 
+	ginpprof "github.com/gin-contrib/pprof"
 	"github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus"
@@ -50,15 +50,10 @@ func main() {
 	zap.ReplaceGlobals(logger)
 
 	// We use pprof (https://pkg.go.dev/runtime/pprof) for tracking the time spent on each call.
-	f, err := os.Create("/tmp/pprof")
 	if err != nil {
 		zap.L().Panic(err.Error())
 	}
-	pprof.StartCPUProfile(f)
-	defer func() {
-		zap.L().Info("stopping cpuprofile")
-		pprof.StopCPUProfile()
-	}()
+	
 
 	// Handle interrupt signals
 	stopChan := make(chan bool, 1)
@@ -90,6 +85,7 @@ func main() {
 	gRPCClient := adder.NewAdderClient(conn)
 	
 	r := gin.New()
+	ginpprof.Register(r)
 	r.Use(ginzap.Ginzap(zap.L(), time.RFC3339, true))
 	r.Use(ginzap.RecoveryWithZap(zap.L(), true))
 	r.GET("/health", gin.WrapH(promhttp.Handler()))
